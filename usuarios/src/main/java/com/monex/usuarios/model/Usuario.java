@@ -14,33 +14,33 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank (message = "Nome é Obrigatorio")
+    @NotBlank (message = "Name is required")
     @Column(nullable = false, length = 100)
-    @Size(min = 3, max = 100,message = "O Nome tem que ter entre 3 a 100 caracteres")
+    @Size(min = 3, max = 100,message = "Name must be between 3 and 100 characters")
     @Pattern
     (
             regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ]+([ '-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$",
-            message = "Nome inválido. Use apenas letras, espaços, hífens ou apóstrofos."
+            message = "Invalid name. Use only letters, spaces, hyphens or apostrophes"
     )
     private String name;
 
 
 
-    @Email (message = "Digite um email valido")
-    @NotBlank (message = "Email Obrigatorio")
+    @Email (message = "Enter a valid email address")
+    @NotBlank (message = "Email is required")
     @Column(unique = true,nullable = false,length = 100)
     private String email;
 
-    @NotNull(message = "Digite uma idade valida")
-    @Min(value = 18,message = "idade minima pra abrir a conta é 18 anos")
-    @Max(value = 100,message = "idade excedida para abertura de conta")
+    @NotNull(message = "Age is required")
+    @Min(value = 18,message = "Minimum age to open an account is 18")
+    @Max(value = 100,message = "Age exceeds the maximum allowed to open an account")
     @Column(nullable = false)
     private Integer age;
 
 
-    @NotBlank (message = "Digite uma senha valida")
+    @NotBlank (message = "Password is required")
     @Column(nullable = false,length = 72)
-    @Size (min = 8, max = 72,message = "Senha deve conter de 8 a 72 caracteres")
+    @Size (min = 8, max = 72,message = "Password must be between 8 and 72 characters")
     private String password;
 
     protected Usuario (){}
