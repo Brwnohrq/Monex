@@ -1,57 +1,50 @@
 package com.monex.usuarios.model;
 
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-
-
 @Entity
-@Table (name = "USUARIO")
-public class Usuario {
+@Table (name = "usuario")
 
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank (message = "Name is required")
-    @Column(nullable = false, length = 100)
-    @Size(min = 3, max = 100,message = "Name must be between 3 and 100 characters")
-    @Pattern
-    (
-            regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ]+([ '-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$",
-            message = "Invalid name. Use only letters, spaces, hyphens or apostrophes"
-    )
+    @Column (nullable = false,length =72)
+    @Size (min = 3, max = 72)
+    @NotBlank(message = "Nome é Obrigatorio")
+    @Pattern(regexp = "^\\p{L}+([ '-]\\p{L}+)*$",message = "Digite um nome valido")
     private String name;
 
 
-
-    @Email (message = "Enter a valid email address")
-    @NotBlank (message = "Email is required")
-    @Column(unique = true,nullable = false,length = 100)
+    @Email (message = "Digite um email valido")
+    @NotBlank
+    @Column (nullable = false,length = 72,unique = true)
+    @Size (min = 3, max = 72)
     private String email;
 
-    @NotNull(message = "Age is required")
-    @Min(value = 18,message = "Minimum age to open an account is 18")
-    @Max(value = 100,message = "Age exceeds the maximum allowed to open an account")
     @Column(nullable = false)
+    @NotNull
+    @Min(value = 18, message = "Minimo de 18 anos")
+    @Max(value = 100, message = "Maximo de 100 anos")
     private Integer age;
 
-
-    @NotBlank (message = "Password is required")
+    @NotBlank
     @Column(nullable = false,length = 72)
-    @Size (min = 8, max = 72,message = "Password must be between 8 and 72 characters")
+    @Size(min = 8, max = 72)
     private String password;
 
     protected Usuario (){}
 
-    public Usuario (String name, String email, Integer age, String password){
+    public Usuario(String name, String email, Integer age, String password) {
         this.name = name;
         this.email = email;
         this.age = age;
         this.password = password;
     }
-
 
     public Long getId() {
         return id;
@@ -80,5 +73,4 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }
