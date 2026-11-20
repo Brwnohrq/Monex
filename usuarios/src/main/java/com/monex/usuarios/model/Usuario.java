@@ -6,52 +6,55 @@ import jakarta.validation.constraints.*;
 
 @Entity
 @Table (name = "usuario")
-
 public class Usuario {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (nullable = false,length =72)
+    @NotBlank(message = "Digite um nome")
+    @Column (nullable = false,length = 72)
+    @Pattern(regexp = "^\\p{L}+([ '-]\\p{L}+)*$", message = "Nome inválido")
     @Size (min = 3, max = 72)
-    @NotBlank(message = "Nome é Obrigatorio")
-    @Pattern(regexp = "^\\p{L}+([ '-]\\p{L}+)*$",message = "Digite um nome valido")
     private String name;
 
 
-    @Email (message = "Digite um email valido")
-    @NotBlank
+    @Size (min = 8, max = 72,message = "Senha deve conter de 8 a 72 caracteres")
+    @Column(nullable = false,length = 72)
+    @NotBlank(message = "Digite uma senha")
+    private String password;
+
+    @Email (message =  "Digite um email valido")
+    @NotBlank(message = "Digite um email")
     @Column (nullable = false,length = 72,unique = true)
-    @Size (min = 3, max = 72)
+    @Size (min = 4, max = 72)
     private String email;
 
-    @Column(nullable = false)
+    @Min(value = 18,message = "Idade minima 18")
+    @Max(value = 100, message = "Idade maxima 100")
     @NotNull
-    @Min(value = 18, message = "Minimo de 18 anos")
-    @Max(value = 100, message = "Maximo de 100 anos")
     private Integer age;
 
-    @NotBlank
-    @Column(nullable = false,length = 72)
-    @Size(min = 8, max = 72)
-    private String password;
+    public Usuario(String name, String password, String email, Integer age) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.age = age;
+    }
 
     protected Usuario (){}
 
-    public Usuario(String name, String email, Integer age, String password) {
-        this.name = name;
-        this.email = email;
-        this.age = age;
-        this.password = password;
+    public String getName() {
+        return name;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getPassword() {
+        return password;
     }
 
     public String getEmail() {
@@ -62,15 +65,11 @@ public class Usuario {
         return age;
     }
 
-    public String getPassword() {
-        return password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
