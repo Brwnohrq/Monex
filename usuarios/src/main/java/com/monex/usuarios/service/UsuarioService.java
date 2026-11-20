@@ -9,36 +9,33 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
 
-
     private final UsuarioRepository usuarioRepository;
 
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
-   public boolean cadastrar (Usuario usuario){
+    public boolean cadastrar (Usuario usuario) {
 
-        if (usuarioRepository.existsByEmail(usuario.getEmail())){
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             return false;
         }
         usuarioRepository.save(usuario);
         return true;
-   }
+    }
 
-   public boolean autenticar (String email, String password){
+    public boolean autenticar (String email, String password){
 
-      Optional <Usuario> usuarioBanco = usuarioRepository.findByEmail(email);
-      if (usuarioBanco.isEmpty()){
-          return false;
-      }
-      Usuario usuario1 = usuarioBanco.get();
+        Optional <Usuario> usuario = usuarioRepository.findByEmail(email);
+        if (usuario.isEmpty()){
+            return false;
+        }
+        Usuario usuarioBanco = usuario.get();
 
-      if (!usuario1.getPassword().equals(password)){
-          return false;
-      }
-      return true;
-   }
+        return usuarioBanco.getPassword().equals(password);
+        }
 
 
+    }
 
-}
+
