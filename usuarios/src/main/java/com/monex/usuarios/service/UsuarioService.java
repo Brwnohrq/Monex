@@ -1,5 +1,6 @@
 package com.monex.usuarios.service;
 
+import com.monex.usuarios.dto.UsuarioResponse;
 import com.monex.usuarios.model.Usuario;
 import com.monex.usuarios.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,15 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public boolean cadastrar (Usuario usuario) {
+    public Optional <Usuario> cadastrar (Usuario usuario) {
 
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
-            return false;
+            return Optional.empty();
         }
-        usuarioRepository.save(usuario);
-        return true;
+        Usuario salvo = usuarioRepository.save(usuario);
+        return Optional.of(salvo);
     }
+
 
     public boolean autenticar (String email, String password){
 
