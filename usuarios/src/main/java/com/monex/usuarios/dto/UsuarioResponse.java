@@ -4,34 +4,37 @@ package com.monex.usuarios.dto;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.monex.usuarios.model.Usuario;
 
-@JsonPropertyOrder({"id", "name", "email", "age"})
+@JsonPropertyOrder({"id","name", "age", "email"})
 public class UsuarioResponse {
 
-    private String name;
     private String email;
-    private Integer age;
+    private String name;
     private Long id;
+    private Integer age;
+
 
     public UsuarioResponse(Usuario usuario) {
-        this.id = usuario.getId();
-        this.age = usuario.getAge();
         this.email = usuario.getEmail();
         this.name = usuario.getName();
+        this.id = usuario.getId();
+        this.age = usuario.getAge();
+    }
+
+
+    public String getEmail() {
+        return email;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getId() {
+        return id;
     }
 
     public Integer getAge() {
         return age;
     }
 
-    public Long getId() {
-        return id;
-    }
 }

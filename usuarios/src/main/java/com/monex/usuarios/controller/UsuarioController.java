@@ -1,5 +1,6 @@
 package com.monex.usuarios.controller;
 
+
 import com.monex.usuarios.dto.UsuarioResponse;
 import com.monex.usuarios.model.Usuario;
 import com.monex.usuarios.service.UsuarioService;
@@ -13,28 +14,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
+@RequestMapping ("/usuarios")
 @RestController
-@RequestMapping("/usuarios")
 public class UsuarioController {
 
- private final UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
-
-
     @PostMapping
-   public ResponseEntity<?> cadastrar (@Valid @RequestBody Usuario usuario){
-        Optional <Usuario> usuarioInicial = usuarioService.cadastrar(usuario);
+    public ResponseEntity <?> cadastrar (@Valid @RequestBody Usuario usuario){
 
+        Optional <Usuario> usuarioInicial = usuarioService.cadastrar(usuario);
         if (usuarioInicial.isEmpty()){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ja em uso");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ja cadastrado ou Indisponivel");
         }
         Usuario usuarioFinal = usuarioInicial.get();
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new UsuarioResponse(usuarioFinal));
-   }
+    }
+
+
 
 
 }

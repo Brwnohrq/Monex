@@ -11,24 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+@RequestMapping ("/auth")
 @RestController
-@RequestMapping("/auth")
 public class AuthController {
 
- private final UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     public AuthController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
     @PostMapping ("/login")
-    public ResponseEntity <?> login (@Valid @RequestBody LoginRequest loginRequest){
+    public ResponseEntity <?> autenticar (@Valid @RequestBody LoginRequest request){
 
-       if (!usuarioService.autenticar(loginRequest.getEmail(), loginRequest.getPassword())){
-           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou senha invalido");
+       if (!usuarioService.autenticar(request.getEmail(),request.getPassword())){
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario ou senha invalidos");
        }
-       return ResponseEntity.ok("Login completo");
-
+       return ResponseEntity.ok("Autenticado");
     }
-
 }
