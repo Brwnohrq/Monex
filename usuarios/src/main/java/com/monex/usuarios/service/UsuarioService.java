@@ -4,6 +4,7 @@ package com.monex.usuarios.service;
 import com.monex.usuarios.dto.CadastroRequest;
 import com.monex.usuarios.model.Usuario;
 import com.monex.usuarios.repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository,PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -26,12 +29,12 @@ public class UsuarioService {
         Usuario usuario = new Usuario(
                 request.getName(),
                 request.getEmail(),
-                request.getPassword(),
+                passwordEncoder.encode(request.getPassword()),
                 request.getAge()
         );
-
         usuarioRepository.save(usuario);
         return Optional.of(usuario);
+
     }
 
     public Optional <Usuario> autenticar (String email, String password){
@@ -42,10 +45,9 @@ public class UsuarioService {
         }
         Usuario usuarioFinal = usuario.get();
 
-        if (!usuarioFinal.getPassword().equals(password)){
+        if (!passwordEncoder.matches(password, usuarioFinal.getPassword())){
             return Optional.empty();
         }
         return Optional.of(usuarioFinal);
-
-    }
+}
 }
