@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 
 public class LoginRequest {
 
-    @Email (message = "Digite um email valido")
     @NotBlank (message = "Digite um email")
+    @Email (message = "Digite um email valido")
     private String email;
 
     @NotBlank (message = "Digite uma senha")
@@ -27,4 +27,5 @@ public class LoginRequest {
     public String getPassword() {
         return password;
     }
+
 }

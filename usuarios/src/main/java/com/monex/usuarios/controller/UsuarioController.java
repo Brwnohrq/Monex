@@ -1,6 +1,5 @@
 package com.monex.usuarios.controller;
 
-
 import com.monex.usuarios.dto.UsuarioResponse;
 import com.monex.usuarios.model.Usuario;
 import com.monex.usuarios.service.UsuarioService;
@@ -27,16 +26,14 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity <?> cadastrar (@Valid @RequestBody Usuario usuario){
 
-        Optional <Usuario> usuarioInicial = usuarioService.cadastrar(usuario);
-        if (usuarioInicial.isEmpty()){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ja cadastrado ou Indisponivel");
-        }
-        Usuario usuarioFinal = usuarioInicial.get();
+    Optional <Usuario> usuarioInicial = usuarioService.cadastrar(usuario);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UsuarioResponse(usuarioFinal));
+    if (usuarioInicial.isEmpty()){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ja em uso");
     }
+    Usuario usuarioFinal = usuarioInicial.get();
 
-
-
+    return ResponseEntity.status(HttpStatus.CREATED).body(new UsuarioResponse(usuarioFinal));
+    }
 
 }
